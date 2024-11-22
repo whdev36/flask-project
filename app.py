@@ -7,7 +7,7 @@ from uuid import uuid4
 
 # Configure app
 app = Flask(__name__, template_folder='templates', static_folder='static', static_url_path='/')
-app.config['SECRET_KEY'] = 'dfdfdf'
+app.config['SECRET_KEY'] = 'YOUR_SECRET_KEY' # Create a your SECRET KEY!
 
 class NameForm(FlaskForm):
 	name = StringField('What\'s your name?', validators=[DataRequired()])
