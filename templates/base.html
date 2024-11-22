@@ -20,6 +20,13 @@
 <body>
 	{% include 'navbar.html' %}
 	<div class="container my-5">
+		<!-- Messages -->
+		{% for category, message in get_flashed_messages(with_categories=True) %}
+			<div class="alert alert-{{ category }} alert-dismissible fade show" role="alert">
+				<strong>{{ category|upper }}: </strong> {{ message }}
+				<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+			</div>
+		{% endfor %}
 		{% block content %}
 		{% endblock %}
 	</div>
