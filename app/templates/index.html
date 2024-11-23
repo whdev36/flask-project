@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+
+{% block title %}WTF{% endblock %}
+
+{% block content %}
+    <div class="row">
+        <form action="/" method="post" class="col-md-6 offset-md-3">
+            {% if name %}
+                <h1>Hello {{ name }}!</h1>
+            {% endif %}
+            <!-- Know -->
+            {% if not know %}
+                <p>Pleased to meet you!</p>
+                <hr>
+            {% else %}
+                <p>Happy to see you again!</p>
+                <hr>
+            {% endif %}
+            {{ form.hidden_tag() }}
+            {{ form.name.label }}
+            <div class="input-group input-group-lg">
+                {{ form.name(class='form-control', placeholder='Name') }}
+                {{ form.submit(class='btn btn-primary') }}
+            </div>
+        </form>
+    </div>
+{% endblock %}
