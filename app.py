@@ -8,19 +8,25 @@ from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
 from uuid import uuid4
 import os
+from flask_mail import Mail, Message
 
 BASE_DIR = os.path.abspath(os.path.dirname(__file__))
 
-# Configure app
 app = Flask(__name__, template_folder='templates', static_folder='static', static_url_path='/')
-app.config['SECRET_KEY'] = 'YOUR_SECRET_KEY' # Create a your SECRET KEY!
-# app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///' + os.path.join(BASE_DIR, 'data.sqlite')
+app.config['SECRET_KEY'] = 'YOUR_SECRET_KEY'
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///website.db'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+app.config['MAIL_SERVER'] = 'smtp.gmail.com'
+app.config['MAIL_PORT'] = 587
+app.config['MAIL_USE_TLS'] = True
+app.config['MAIL_USE_SSL'] = False
+app.config['MAIL_USERNAME'] = os.environ.get('MAIL_USERNAME')
+app.config['MAIL_PASSWORD'] = os.environ.get('MAIL_PASSWORD')
+app.config['MAIL_DEFAULT_SENDER'] = os.environ.get('MAIL_USERNAME')
 
-db =SQLAlchemy(app) # DB configure
-
+db =SQLAlchemy(app)
 migrate = Migrate(app, db)
+mail = Mail(app)
 
 class NameForm(FlaskForm):
 	name = StringField('What\'s your name?', validators=[DataRequired()])
