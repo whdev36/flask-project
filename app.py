@@ -5,6 +5,7 @@ from flask_wtf import FlaskForm
 from wtforms import StringField, SubmitField
 from wtforms.validators import DataRequired
 from flask_sqlalchemy import SQLAlchemy
+from flask_migrate import Migrate
 from uuid import uuid4
 import os
 
@@ -18,6 +19,8 @@ app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///website.db'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
 db =SQLAlchemy(app) # DB configure
+
+migrate = Migrate(app, db)
 
 class NameForm(FlaskForm):
 	name = StringField('What\'s your name?', validators=[DataRequired()])
