@@ -17,4 +17,10 @@ def create_app():
     app.register_blueprint(views)
     app.register_blueprint(auth)
 
+    if not os.path.exists(DB_NAME):
+        with app.app_context():
+            db.create_all()
+        print(f'{DB_NAME} created successfully!')
+
+
     return app
