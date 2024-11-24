@@ -9,7 +9,7 @@
             {% for note in current_user.notes %}
                 <li class="list-group-item d-flex align-items-center justify-content-between">
                     {{ note.data }}
-                    <button type="button" class="close" onclick="">&times;</button>
+                    <button type="button" class="close" onclick="onDelete({{ note.id }})">&times;</button>
                 </li>
             {% endfor %}
         </ul>
