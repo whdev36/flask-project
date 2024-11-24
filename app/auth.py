@@ -9,40 +9,49 @@ auth = Blueprint('auth', __name__)
 @auth.route('/login', methods=['GET', 'POST'])
 def login():
     if request.method == 'POST':
-        email = request.form.get('email', '')
-        password = request.form.get('password', '')
+        email = request.form.get('email', '').strip()
+        password = request.form.get('password', '').strip()
         
         user = User.query.filter_by(email=email).first()
-        if user:
-            if check_password_hash(user.password, password):
-                flash('Logged in successfully!', 'success')
-                login_user(user, remember=True)
-                return redirect(url_for('views.index'))
-            else:
-                flash('Incorrect password, try again.', 'warning')
+        if user and check_password_hash(user.password, password):
+            flash('Welcome back, {}!'.format(user.first_name), 'success')
+            login_user(user, remember=True)
+            return redirect(url_for('views.index'))
+        elif user:
+            flash('Incorrect password. Please try again.', 'warning')
         else:
-            flash('Email does not exists.', 'warning')
+            flash('The email you entered does not exist. Please register first.', 'warning')
+
     return render_template('login.html')
 
 @auth.route('/register', methods=['GET', 'POST'])
 def register():
     if request.method == 'POST':
-        email = request.form.get('email', '')
-        first_name = request.form.get('first-name', '')
-        last_name = request.form.get('last-name', '')
-        password = request.form.get('password', '')
-        confirm_password = request.form.get('confirm-password', '')
+        email = request.form.get('email', '').strip()
+        first_name = request.form.get('first-name', '').strip()
+        last_name = request.form.get('last-name', '').strip()
+        password = request.form.get('password', '').strip()
+        confirm_password = request.form.get('confirm-password', '').strip()
 
-        if password != confirm_password:
-            flash('Password don\'t match.', 'warning')
+        if len(email) < 5 or '@' not in email:
+            flash('Please enter a valid email address.', 'warning')
+        elif User.query.filter_by(email=email).first():
+            flash('Email already exists. Please log in.', 'warning')
+        elif len(password) < 6:
+            flash('Password must be at least 6 characters long.', 'warning')
+        elif password != confirm_password:
+            flash('Passwords do not match. Please try again.', 'warning')
         else:
-            new_user = User(email=email, first_name=first_name,
-                            last_name=last_name,
-                            password=generate_password_hash(password))
+            new_user = User(
+                email=email, 
+                first_name=first_name,
+                last_name=last_name,
+                password=generate_password_hash(password)
+            )
             db.session.add(new_user)
             db.session.commit()
             login_user(new_user, remember=True)
-            flash('Account created!', 'success')
+            flash('Your account has been created successfully!', 'success')
             return redirect(url_for('views.index'))
 
     return render_template('register.html')
@@ -51,4 +60,5 @@ def register():
 @login_required
 def logout():
     logout_user()
+    flash('You have been logged out successfully.', 'info')
     return redirect(url_for('auth.login'))

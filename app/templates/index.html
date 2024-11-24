@@ -5,14 +5,14 @@
 {% block content %}
     <div class="col-md-6 offset-md-3">
         <h3 class="display-4 mb-3 text-center">Note</h3>
-        <ul class="list-group list-group-flush" id="notes">
+        <ul class="list-group list-group-flush shadow-sm rounded" id="notes">
             {% for note in current_user.notes %}
-                <li class="list-group-item d-flex align-items-center justify-content-between">
-                    {{ note.data }}
-                    <button type="button" class="close" onclick="onDelete({{ note.id }})">&times;</button>
+                <li class="list-group-item d-flex align-items-center justify-content-between py-3" data-id="{{ note.id }}">
+                    <span class="text-truncate" style="max-width: 80%;">{{ note.data }}</span>
+                    <button type="button" class="btn-close text-danger delete-note" aria-label="Delete"></button>
                 </li>
             {% endfor %}
-        </ul>
+        </ul>        
         <form method="post" class="d-grid">
             <textarea name="note" id="note" class="form-control mb-2" rows="10" placeholder="Type your note"></textarea>
             <button type="submit" class="btn btn-primary">Save</button>
