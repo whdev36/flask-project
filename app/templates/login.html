@@ -3,5 +3,18 @@
 {% block title %}Login{% endblock %}
 
 {% block content %}
-    <h1>Login</h1>
+    <div class="col-md-6 offset-md-3 bg-dark text-light rounded p-5">
+        <h3 class="display-4 mb-3 text-center">Login</h3>
+        <form method="post" class="d-grid">
+            <div class="form-group mb-2">
+                <label for="email">Email Address</label>
+                <input type="email" name="email" id="email" class="form-control" placeholder="Enter your email">
+            </div>
+            <div class="form-group mb-3">
+                <label for="password">Password</label>
+                <input type="password" name="password" id="password" class="form-control" placeholder="Create a password">
+            </div>
+            <button type="submit" class="btn btn-primary">Login</button>
+        </form>
+    </div>
 {% endblock %}
