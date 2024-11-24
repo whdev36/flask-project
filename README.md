@@ -65,7 +65,7 @@ _Add a screenshot of your homepage or key features._
 ---
 
 ## 🔗 Demo
-_If hosted, include the live link here._
+[Go to Demo](https://whdev.pythonanywhere.com/)
 
 ---
 
